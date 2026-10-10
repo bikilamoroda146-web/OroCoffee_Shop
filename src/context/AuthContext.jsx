@@ -29,16 +29,17 @@ export function AuthProvider({children}) {
                 return {success: false, error: "All fields are required"};
             }
             // check if user already registered
-            const existingUser = localStorage.getItem("User");
+            const existingUser = localStorage.getItem("registered");
             if(existingUser){
                 const parsed = JSON.parse(existingUser);
-                if(parsed.email === email){
+                if(parsed.email === email.trim().toLowerCase()){
                     setError("User already exists");
                     setLoading(false);
+                    return {success: false, error: "User already exists"};
                }
-                return {success: false, error: "User already exists"};
+                
             }
-            // create ne useer
+            // create new user
             const newUser = {
                 id: Date.now().toString(),
                 name: name.trim(),
@@ -50,25 +51,89 @@ export function AuthProvider({children}) {
                 createdAt: new Date().toISOString
             }
 
-            localStorage.setItem("user", JSON.stringify(newUser));
             localStorage.setItem("registeredUser", JSON.stringify(newUser))
+            localStorage.setItem("user", JSON.stringify(newUser));
+
 
             setUser(newUser);
             setLoading(false);
             
-            return {success: true,user: newUser}
+            return {success: true, user: newUser}
 
         } catch (err) {
             const errorMsg = err instanceof Error ? err.message : "sign up failed"
             setError(errorMsg);
             setLoading(false);
-            return {success: false,error: errorMsg}
+            return {success: false, error: errorMsg}
         }
+    }
+
+    function signIn(email, password){
+        try {
+            setLoading(true)
+            setError(null)
+
+            const savedUser = localStorage.getItem("registeredUser");
+
+            if(!savedUser){
+                setError("User not found. PLease signUp first.");
+                setLoading(false)
+                return false;
+            }
+
+            const parsed = JSON.parse(savedUser);
+
+            if(parsed.email === email.trim().toLowerCase() && parsed.password === password){
+                localStorage.setItem("user",JSON.stringify(parsed))
+                setUser(parsed);
+                setLoading(false)
+                return true
+            }
+
+            setError("Invalid email or password")
+            setLoading(false)
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : "SignUp failed";
+            setError(errorMsg);
+            setLoading(false)
+
+            return false
+            
+        }
+
+    }
+
+
+ function signOut(){
+    localStorage.removeItem("user");
+    setUser(null);
+ }
+
+
+function updateProfile(update){
+    if(!user){
+        return {success: false, error: "Not signed In"}
+    }
+    const updatedUser = {...user, ...update};
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    localStorage.setItem("registeredUser", JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    return {success: true, user: updatedUser}
+}
+
+    const value = {
+        user,
+        error,
+        loading,
+        signIn,
+        signup,
+        signOut,
+        updateProfile
     }
 
 
     return(
-        <AuthContext.Provider>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )

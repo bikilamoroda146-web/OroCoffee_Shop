@@ -23,7 +23,7 @@ function Footer() {
                 <div>
                     <h4 className="font-semi-condensed">Contact</h4>
                     <ul className="mt-2 text-white/80">
-                        <li>📞+251 092 821 4042</li>
+                        <li>📞+251 92 821 4042</li>
                         <li>📩bikilamoroda146@gmail.com</li>
                         <li>🏠Ethiopia Jimma</li>
                     </ul>
