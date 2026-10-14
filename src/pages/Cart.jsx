@@ -21,27 +21,27 @@ function Cart() {
            <div className='space-y-4 mb-8'>
             {
                 cartItems.map(item =>(
-                    <div key={item.id} className='flex items-center gap-4 border border-coffee-orange rounded-2xl bg-white p-4'>
+                    <div key={item.id} className='flex flex-wrap items-center gap-4 border border-coffee-orange rounded-2xl bg-white p-4'>
                          <img src={item.image} alt={item.name}
-                         className='w-24 h-24 object-cover rounded-lg' />
-                         <div className='flex-1'>
+                         className='w-24 h-24 shrink-0 object-cover rounded-lg' />
+                         <div className='min-w-0 flex-1'>
                             <h3 className='font-bold text-lg text-coffee-brown'>{item.name}</h3>
                             <p className='text-sm text-gray-500'>{item.description}</p>
                             <p className='text-coffee-orange font-bold mt-2 text-lg'>{item.price.toFixed(2)}</p>
                          </div>
-                         <div className='flex items-center bg-gray-200 gap-2 p-1 rounded-lg'>
+                         <div className='flex w-full items-center justify-end bg-gray-200 gap-2 p-1 rounded-lg sm:w-auto'>
                             
-                            <button onClick={()=> decreaseQuantity(item.id)}
-                            className='p-2 hover:bg-gray-400 rounded-lg transition'>
+                            <button type='button' aria-label={`Decrease quantity of ${item.name}`} onClick={()=> decreaseQuantity(item.id)}
+                            className='flex min-h-11 min-w-11 touch-manipulation items-center justify-center p-2 hover:bg-gray-400 rounded-lg transition'>
                               <FiMinus />
                             </button>
                             <span>{item.quantity}</span>
-                            <button onClick={()=> increasingQuantity(item.id)}
-                            className='p-2 hover:bg-gray-400 rounded-lg transition'>
+                            <button type='button' aria-label={`Increase quantity of ${item.name}`} onClick={()=> increasingQuantity(item.id)}
+                            className='flex min-h-11 min-w-11 touch-manipulation items-center justify-center p-2 hover:bg-gray-400 rounded-lg transition'>
                               <FiPlus />
                             </button>
-                            <button  onClick={()=> removeFromCart(item.id)}
-                            className='p-2 text-red-600 hover:bg-red-500 hover:text-white rounded-lg'>
+                            <button type='button' aria-label={`Remove ${item.name} from cart`} onClick={()=> removeFromCart(item.id)}
+                            className='flex min-h-11 min-w-11 touch-manipulation items-center justify-center p-2 text-red-600 hover:bg-red-500 hover:text-white rounded-lg'>
                                 <FiTrash2 />
                             </button>
                          </div>
