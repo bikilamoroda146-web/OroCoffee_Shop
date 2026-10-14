@@ -1,12 +1,12 @@
  import React from 'react';
  import { useState } from 'react';
  import {useCart} from'../context/CartContext'
- import { FiMapPin, FiMail, FiPhone, FiLoader} from 'react-icons/fi';
+ import { FiMapPin, FiMail, FiPhone, FiLoader, FiCheckCircle} from 'react-icons/fi';
  import { Link } from 'react-router-dom';
 
 function Checkout() {
-    const {cartCount, cartItems}= useCart();
- 
+    const {cartCount, cartItems, clearCart}= useCart();
+    const [orderPlaced, setOrderPlaced] = useState();
 
 const [formData, setFormData] = useState({
     address: "",
@@ -15,6 +15,23 @@ const [formData, setFormData] = useState({
 })
 const [error, setError] = useState("");
 const [loading, setLoading] = useState(false);
+
+if(orderPlaced){
+    return(
+        <div className='max-w-lg mx-auto px-4 py-20 text-center'>
+            <FiCheckCircle size={72} className='mx-auto text-green-500 mb-4'/>
+            <h2 className='text-3xl font-bold text-coffee-orange mb-2'>Order placed successfull.</h2>
+            <p className='text-gray-800 mb-2'>Thank you for your order. Your order in on the way</p>
+
+            <div className='flex flex-col sm:flex-row gap-3 justify-center'>
+                <Link to="/menu" className='px-6 py-3 bg-coffee-orange text-white font-bold rounded-lg hover:bg-coffee-brown'>Order More</Link>
+                <Link to="/" className='px-6 py-3 bg-coffee-orange text-white font-bold rounded-lg hover:bg-coffee-brown' >Back to Home</Link>
+            </div>
+        </div>
+    )
+}
+
+
 const subtotal = cartItems.reduce(
     (sum, item)=> sum + item.price * item.quantity, 0
 
@@ -52,7 +69,8 @@ function handleChange(e){
         setLoading(true);
         setTimeout(()=>{
             setLoading(false);
-            alert("Order placed successfully!");
+            clearCart();
+            setOrderPlaced(true);
             setFormData({
                 address: "",
                 email: "",

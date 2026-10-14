@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation} from 'react-router-dom'
 import { useAuth } from '../context/AuthContext' 
 
  function SignIn() {
@@ -12,7 +12,7 @@ import { useAuth } from '../context/AuthContext'
  
 const {signIn,error, loading} = useAuth();
 const navigate = useNavigate();
-
+const location = useLocation();
 function handleSubmit(e){
   e.preventDefault();
 
@@ -22,8 +22,9 @@ function handleSubmit(e){
     setEmail("");
     setPassword("");
     setShowPassword(false)
-
-    navigate("/")
+ 
+  const redirectTo = location.state?.pathname || "/";
+  navigate(redirectTo, {replace: true})
   }
 }
 
@@ -61,6 +62,7 @@ function handleSubmit(e){
               <div className='relative '>
                 <label>
                   <FiLock className='absolute left-3 top-4.5 text-gray-600'></FiLock>
+              
                   <input type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e)=> setPassword(e.target.value)}

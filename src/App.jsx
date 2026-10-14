@@ -10,6 +10,9 @@ import Checkout from './pages/Checkout'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
+import ProtectedRouter from './componnents/ProtectedRouter'
+import ProductDetail from './pages/ProductDetail'
+import NotFound from './pages/NotFound'
 function App() {
 
   return (
@@ -19,10 +22,20 @@ function App() {
   <Route path="/" element={<Home />} />
   <Route path="/cart" element={<Cart />} />
   <Route path ="/menu" element={<Menu />} />
-  <Route path="/checkout" element={<Checkout />} />
+  <Route path="/checkout" element={
+    <ProtectedRouter>
+      <Checkout />
+    </ProtectedRouter>
+  } />
   <Route path='/signin' element={<SignIn />} />
   <Route path='/signup' element={<SignUp />} />
-  <Route path='/profile' element={<Profile />} />
+  <Route path='/profile' element={
+    <ProtectedRouter>
+      <Profile />
+    </ProtectedRouter>
+  } />
+   <Route path='*' element={<NotFound />} />
+  <Route path='product/:id' element={<ProductDetail />} />
 </Routes>
       <Footer />
      

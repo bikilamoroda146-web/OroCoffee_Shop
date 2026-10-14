@@ -2,6 +2,7 @@
 import { FiSearch } from 'react-icons/fi'
 import products from '../Data/products'
 import AddToCart from '../componnents/AddToCart' 
+import { Link } from 'react-router-dom'
  function Menu() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const filteredProduct = useMemo (()=>{
@@ -36,6 +37,10 @@ import AddToCart from '../componnents/AddToCart'
                       <p className='text-coffee-orange font-bold mt-2'>${product.price}</p>
                       <div className='mt-2'>
                         <AddToCart product={product} />
+                         <Link className='mt-3 block text-center bg-coffee-caramel px-3 py-2 rounded-2xl text-coffee-brown text-sm hover:bg-coffee-orange
+                        ' to={`/product/${product.id}`}>
+                        View details
+                        </Link>
                       </div>
 
                     </div>

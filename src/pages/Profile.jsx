@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext'
 
 function Profile() {
   const {user, signOut, updateProfile} = useAuth();
-  const [isEditing, setIsediting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ function handleImage(e) {
       return
     }
     updateProfile(formData)
-    setIsediting(false)
+    setIsEditing(false)
     setMessage("profile updated successfully!")
   }
 
@@ -76,7 +76,7 @@ function handleImage(e) {
     profileImage: user?.profileImage || ""
     })
     setMessage("");
-    setIsediting(false)
+    setIsEditing(false)
   }
 
   function logOut(){
@@ -206,7 +206,7 @@ function handleImage(e) {
                   <p className='text-sm font-semibold text-coffee-brown mb-1'>Bio</p>
                   <p>{user.bio || "Bio is not added yet"}</p>
                 </div>
-                <button onClick={()=>setIsediting(true)}
+                <button onClick={()=>setIsEditing(true)}
                   className='w-full flex items-center justify-center border-coffee-orange gap-2 my-2 bg-coffee-orange text-white font-bold rounded-lg py-2 hover:bg-coffee-brown cursor-pointer
                   '>
                   <FiEdit2 /> 

@@ -51,6 +51,12 @@ function removeFromCart(productId){
     setCartItems((privItems)=>
     privItems.filter((item)=> item.id !== productId))
 }
+
+function clearCart(){
+    setCartItems([]);
+}
+
+
 const cartTotal = cartItems.reduce(
     (sum, item)=>
         sum + item.price * item.quantity,0
@@ -68,6 +74,7 @@ value={{
     increasingQuantity,
     decreaseQuantity,
     removeFromCart, 
+    clearCart,
     cartTotal
     }}>
   {children}

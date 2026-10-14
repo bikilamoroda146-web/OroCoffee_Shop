@@ -48,9 +48,9 @@ function handleSignOut() {
                         <div className="md:flex hidden gap-3 items-center">
                             {
                                 user ? (
-                                    <div>
+                                    <div className="flex gap-3 items-center">
                                     <Link to="/profile" title={user.name}
-                                    className="w-9 h-9 rounded-full bg-coffee-orange text-white flex items-center justify-items-center font-bold overflow-hidden hover:bg-coffee-brown" >
+                                    className="w-9 h-9 rounded-full bg-coffee-orange text-white flex items-center justify-center font-bold overflow-hidden hover:bg-coffee-brown" >
                                         {
                                             user.profileImage ? <img src={user.profileImage} className="w-full h-full object-cover"/> 
                                             :(user.name?.[0].toUpperCase() || <FiUser />)
@@ -61,7 +61,7 @@ function handleSignOut() {
                             </button>
                                     </div>
                                 ): (
-                                    <div>
+                                    <div className="flex gap-3 items-center">
                                         <Link to="/signin">
                                         <button className="bg-coffee-orange px-4 py-1 rounded-xl hover:bg-coffee-brown text-white">
                                 Sign in

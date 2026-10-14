@@ -30,8 +30,11 @@ function ProductPreview() {
                         <AddToCart product={product}/>
 
                     </div>
-                    <div className='mt-3 block text-center bg-coffee-caramel px-3 py-2 rounded-2xl text-coffee-brown text-sm hover:bg-coffee-orange'>
-                        <Link to="/product/id">View details</Link>
+                    <div >
+                        <Link className='mt-3 block text-center bg-coffee-caramel px-3 py-2 rounded-2xl text-coffee-brown text-sm hover:bg-coffee-orange
+                        ' to={`/product/${product.id}`}>
+                        View details
+                        </Link>
                     </div>
                 </div>
             </div>
