@@ -18,6 +18,7 @@ function Footer() {
                         <li><Link to="/menu" className="hover:text-white">Menu</Link></li>
                         <li><Link to="/menu" className="hover:text-white">Cart</Link></li>
                         <li><Link to="/menu" className="hover:text-white">Orders</Link></li>
+                        <li><Link to="/contact" className="hover:text-white">Contact us</Link></li>
                     </ul>
                 </div>
                 <div>

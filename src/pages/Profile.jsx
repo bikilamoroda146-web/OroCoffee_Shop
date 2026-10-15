@@ -86,8 +86,8 @@ function handleImage(e) {
 
 
   return (
-    <div className='min-h-screen bg-linear-to-b from-coffee-craem to-white py-10 px-4'>
-    <div className='max-2xl mx-auto'>
+    <div className='min-h-screen bg-linear-to-b from-coffee-cream to-white py-10 px-4'>
+    <div className='max-2xl mx-auto '>
       <h1 className='text-4xl font-bold text-coffee-orange mb-8 text-center'>My profile</h1>
       <div className='bg-white border border-coffee-caramel rounded-lg shadow-lg py-6'>
         <div className='flex flex-col items-center mb-3 '>
@@ -109,8 +109,8 @@ function handleImage(e) {
           }
           {
             isEditing ? (
-              <form onSubmit={handleSave} className='space-y-4'>
-                 <div className='mx-4'>
+              <form onSubmit={handleSave} className='space-y-5 '>
+                 <div className='mx-4 '>
                 
                   <label htmlFor="" className='block text-sm font-semibold text-coffee-brown mb-3'>profile photo</label>
                   <div className='flex items-coffee items-center gap-4'>
@@ -177,7 +177,7 @@ function handleImage(e) {
                  <div className='flex gap-4'>
                   <button type="submit"
                    className='flex flex-1 items-center justify-center gap-2 bg-coffee-orange text-white font-bold rounded-lg cursor-pointer py-3 hover:bg-coffee-brown '>
-                    <FiSave /> Save Change
+                    <FiSave /> Save
                   </button>
                    <button type="button" onClick={handleCancel}
                    className='flex flex-1 items-center justify-center gap-2 bg-coffee-orange text-white font-bold rounded-lg cursor-pointer py-3 hover:bg-coffee-brown '>

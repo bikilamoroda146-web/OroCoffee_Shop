@@ -34,6 +34,9 @@ function handleSignOut() {
                         <NavLink to="menu" className={linkClass}>
                             Menu
                         </NavLink>
+                        <NavLink to="/contact" className={linkClass}>
+                            Contact
+                        </NavLink>
                     </nav>
                     <div className="flex items-center gap-4">
                         <Link to="/cart" className="text-coffee-brown relative hover:text-coffee-orange">
@@ -98,6 +101,9 @@ function handleSignOut() {
                         </NavLink>
                         <NavLink to="menu" className={linkClass} onClick={()=>setOpen(false)}>
                             Menu
+                        </NavLink>
+                        <NavLink to="/contact" className={linkClass} onClick={()=>setOpen(false)}>
+                            Contact
                         </NavLink>
                          {
                             user ? (

@@ -12,7 +12,8 @@ function NotFound() {
       <div className='flex flex-col sm:flex-row mb-4  gap-3 justify-center'>
         <Link to="/menu" className='px-6 py-3 bg-coffee-orange text-white font-bold rounded-lg hover:bg-coffee-brown'>Order More</Link>
         
-        <Link className='px-6 py-3 bg-coffee-orange text-white font-bold rounded-lg hover:bg-coffee-brown'>Back to Home</Link>
+        <Link className='px-6 py-3 bg-coffee-orange text-white font-bold rounded-lg hover:bg-coffee-brown gap-2 flex items-center'>
+        <FiHome />Back to Home</Link>
         
       </div>
     </div>  

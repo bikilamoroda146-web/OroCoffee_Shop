@@ -13,6 +13,7 @@ import Profile from './pages/Profile'
 import ProtectedRouter from './componnents/ProtectedRouter'
 import ProductDetail from './pages/ProductDetail'
 import NotFound from './pages/NotFound'
+import Contact from './pages/Contact'
 function App() {
 
   return (
@@ -34,6 +35,7 @@ function App() {
       <Profile />
     </ProtectedRouter>
   } />
+  <Route path="/contact" element={<Contact />} />
    <Route path='*' element={<NotFound />} />
   <Route path='product/:id' element={<ProductDetail />} />
 </Routes>
