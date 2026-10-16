@@ -82,7 +82,7 @@ function AdminOrders() {
           <p className="mt-1 text-sm text-[#927e67]">Review sample orders and update their demo status.</p>
         </div>
         <span className="inline-flex w-fit items-center gap-2 rounded-lg border border-[#eadbc7] bg-[#fbf4e9] px-3 py-2 text-[10px] font-semibold text-[#88663e]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#bb8b4c]" /> Frontend demo · no payments
+          <span className="h-1.5 w-1.5 rounded-full bg-[#bb8b4c]" /> Frontend demo · no real payments
         </span>
       </div>
 
@@ -126,7 +126,7 @@ function AdminOrders() {
         ) : (
           <>
             <div className="hidden overflow-x-auto md:block">
-              <table className="w-full min-w-230 text-left">
+              <table className="w-full min-w-260 text-left">
                 <thead className="bg-[#fcfaf7] text-[10px] uppercase tracking-wider text-[#a08c74]">
                   <tr>
                     <th className="px-5 py-3">Order</th>
@@ -134,6 +134,7 @@ function AdminOrders() {
                     <th className="px-4 py-3">Items</th>
                     <th className="px-4 py-3">Created</th>
                     <th className="px-4 py-3">Total</th>
+                    <th className="px-4 py-3">Payment</th>
                     <th className="px-4 py-3">Status</th>
                     <th className="px-5 py-3 text-right">Details</th>
                   </tr>
@@ -149,6 +150,10 @@ function AdminOrders() {
                       <td className="px-4 py-3.5 text-xs text-[#796a58]">{order.items.reduce((count, item) => count + item.quantity, 0)} items</td>
                       <td className="px-4 py-3.5 text-[11px] text-[#8d7c67]">{formatDate(order.createdAt)}</td>
                       <td className="px-4 py-3.5 text-xs font-bold text-[#493522]">{formatMoney(order.total)}</td>
+                      <td className="px-4 py-3.5">
+                        <p className="text-xs font-semibold capitalize text-[#493522]">{String(order.paymentMethod || 'Not recorded').replaceAll('-', ' ')}</p>
+                        <p className="mt-1 text-[10px] text-[#8d7c67]">{order.paymentStatus || 'Not recorded'}{order.isDemoPayment || order.paymentType === 'demo' ? ' · Demo' : ''}</p>
+                      </td>
                       <td className="px-4 py-3.5">
                         <div className="flex flex-col items-start gap-1.5">
                           <OrderStatusBadge status={order.status} />
@@ -177,6 +182,11 @@ function AdminOrders() {
                     </div>
                     <p className="text-xs font-bold text-[#493522]">{formatMoney(order.total)}</p>
                   </div>
+                  <p className="mt-3 text-[10px] leading-5 text-[#796a58]">
+                    Payment: <span className="font-semibold capitalize text-[#493522]">{String(order.paymentMethod || 'Not recorded').replaceAll('-', ' ')}</span>
+                    {' · '}{order.paymentStatus || 'Not recorded'}
+                    {(order.isDemoPayment || order.paymentType === 'demo') && ' · Demo only'}
+                  </p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                     <label className="sr-only" htmlFor={`mobile-status-${order.id}`}>Update status for {order.id}</label>
                     <div className="flex flex-wrap items-center gap-2">

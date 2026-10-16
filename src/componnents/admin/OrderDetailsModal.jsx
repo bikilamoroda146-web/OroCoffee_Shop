@@ -45,6 +45,15 @@ function OrderDetailsModal({ order, onClose }) {
           </section>
         </div>
 
+        <section className="mb-5 rounded-2xl border border-[#eee5d9] bg-[#fffaf1] p-4">
+          <h3 className="text-xs font-bold text-[#493522]">Payment</h3>
+          <div className="mt-3 grid gap-3 text-xs sm:grid-cols-3">
+            <p><span className="block text-[#9b8a75]">Method</span><span className="mt-1 block font-semibold text-[#493522]">{order.paymentMethod || 'Not recorded'}</span></p>
+            <p><span className="block text-[#9b8a75]">Payment status</span><span className="mt-1 block font-semibold text-[#493522]">{order.paymentStatus || 'Not recorded'}</span></p>
+            <p><span className="block text-[#9b8a75]">Transaction type</span><span className="mt-1 block font-semibold text-[#493522]">{order.isDemoPayment || order.paymentType === 'demo' ? 'Demonstration only · not real revenue' : 'Sample order · payment type unknown'}</span></p>
+          </div>
+        </section>
+
         <section className="overflow-hidden rounded-2xl border border-[#eee5d9] bg-white">
           <div className="border-b border-[#f1ece5] px-4 py-3">
             <h3 className="text-xs font-bold text-[#493522]">Ordered products</h3>

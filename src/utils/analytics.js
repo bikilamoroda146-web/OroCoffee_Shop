@@ -17,6 +17,9 @@ function isInRange(value, startDate, endDate) {
 
 export function isCompletedRevenueOrder(order) {
   return order.status === 'Delivered'
+    && !order.isDemoPayment
+    && order.paymentType !== 'demo'
+    && !String(order.paymentStatus || '').toLowerCase().startsWith('demo payment')
     && !excludedPayments.has(String(order.paymentStatus || '').toLowerCase())
     && Number.isFinite(Number(order.total))
     && Number(order.total) >= 0

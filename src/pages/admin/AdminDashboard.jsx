@@ -162,7 +162,7 @@ function RecentOrders({ orders }) {
           <table className="w-full min-w-165 text-left">
             <thead>
               <tr className="border-y border-[#f1ece5] bg-[#fcfaf7] text-[10px] font-semibold uppercase tracking-wider text-[#a08c74]">
-                <th className="px-6 py-3">Order</th><th className="px-4 py-3">Customer</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Total</th><th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">Order</th><th className="px-4 py-3">Customer</th><th className="px-4 py-3">Date</th><th className="px-4 py-3">Total</th><th className="px-4 py-3">Payment</th><th className="px-6 py-3">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -172,6 +172,10 @@ function RecentOrders({ orders }) {
                   <td className="px-4 py-3.5"><p className="text-xs font-semibold text-[#493522]">{order.customer.name}</p><p className="mt-0.5 text-[10px] text-[#a08c74]">{order.customer.email}</p></td>
                   <td className="px-4 py-3.5 text-[11px] text-[#8d7c67]">{date(order.createdAt)}</td>
                   <td className="px-4 py-3.5 text-xs font-bold text-[#493522]">{money(Number(order.total) || 0)}</td>
+                  <td className="px-4 py-3.5">
+                    <p className="text-[10px] font-semibold capitalize text-[#493522]">{String(order.paymentMethod || 'Not recorded').replaceAll('-', ' ')}</p>
+                    <p className="mt-1 text-[9px] text-[#8d7c67]">{order.paymentStatus || 'Not recorded'}{order.isDemoPayment || order.paymentType === 'demo' ? ' · Demo' : ''}</p>
+                  </td>
                   <td className="px-6 py-3.5"><OrderStatusBadge status={order.status} /></td>
                 </tr>
               ))}

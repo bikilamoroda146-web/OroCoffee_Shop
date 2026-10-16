@@ -12,6 +12,15 @@ export const ORDER_STATUSES = [
   'Cancelled',
 ]
 
+export const PAYMENT_STATUSES = {
+  PENDING: 'Pending',
+  SUCCESS: 'Demo payment successful',
+  FAILED: 'Demo payment failed',
+  CANCELLED: 'Cancelled',
+}
+
+const PAYMENT_METHODS = ['telebirr', 'cbe-birr', 'bank-card', 'cash-on-delivery']
+
 const demoOrders = [
   {
     id: 'ORO-1048',
@@ -108,6 +117,120 @@ function writeOrders(orders) {
 export const mockOrderService = {
   async list() {
     return readOrders()
+  },
+
+  async get(orderId) {
+    return readOrders().find((order) => order.id === orderId) || null
+  },
+
+  async create(orderData) {
+    if (!orderData || !orderData.customer || !Array.isArray(orderData.items) || orderData.items.length === 0) {
+      throw new Error('Order details are incomplete. Return to checkout and review your information.')
+    }
+    if (
+      typeof orderData.customer.name !== 'string'
+      || !orderData.customer.name.trim()
+      || typeof orderData.customer.email !== 'string'
+      || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(orderData.customer.email.trim())
+      || typeof orderData.customer.phone !== 'string'
+      || !orderData.customer.phone.trim()
+      || typeof orderData.customer.address !== 'string'
+      || !orderData.customer.address.trim()
+    ) {
+      throw new Error('Customer name, email, phone, and delivery address are required.')
+    }
+    if (!PAYMENT_METHODS.includes(orderData.paymentMethod)) {
+      throw new Error('Choose a supported demo payment method.')
+    }
+
+    const items = orderData.items.map((item) => {
+      if (
+        !item
+        || (typeof item.productId !== 'string' && typeof item.productId !== 'number')
+        || typeof item.name !== 'string'
+        || !item.name.trim()
+        || !Number.isInteger(Number(item.quantity))
+        || Number(item.quantity) <= 0
+        || !Number.isFinite(Number(item.unitPrice))
+        || Number(item.unitPrice) < 0
+      ) {
+        throw new Error('One or more order items are invalid. Return to checkout and review your cart.')
+      }
+      return {
+        productId: item.productId,
+        name: item.name,
+        quantity: Number(item.quantity),
+        unitPrice: Number(item.unitPrice),
+        image: item.image || '',
+        lineTotal: Number((Number(item.unitPrice) * Number(item.quantity)).toFixed(2)),
+      }
+    })
+
+    const subtotal = Number(orderData.subtotal)
+    const deliveryFee = Number(orderData.deliveryFee)
+    const tax = Number(orderData.tax)
+    const total = Number(orderData.total)
+    const calculatedSubtotal = items.reduce((sum, item) => sum + item.lineTotal, 0)
+    if (
+      ![subtotal, deliveryFee, tax, total].every(Number.isFinite)
+      || [subtotal, deliveryFee, tax, total].some((amount) => amount < 0)
+      || Math.abs(calculatedSubtotal - subtotal) > 0.01
+      || Math.abs(subtotal + deliveryFee + tax - total) > 0.01
+    ) {
+      throw new Error('Order totals are invalid. Return to checkout and review your cart.')
+    }
+
+    const orders = readOrders()
+    const existingIds = orders
+      .map((order) => Number(String(order.id).match(/^ORO-(\d+)$/)?.[1] || 0))
+    const id = `ORO-${String(Math.max(1048, ...existingIds) + 1).padStart(4, '0')}`
+    const order = {
+      id,
+      createdAt: new Date().toISOString(),
+      status: 'Pending',
+      customer: {
+        name: orderData.customer.name.trim(),
+        email: orderData.customer.email.trim().toLowerCase(),
+        phone: orderData.customer.phone.trim(),
+        address: orderData.customer.address.trim(),
+      },
+      items,
+      subtotal,
+      deliveryFee,
+      tax,
+      total,
+      paymentMethod: orderData.paymentMethod,
+      paymentStatus: PAYMENT_STATUSES.PENDING,
+      isDemoPayment: true,
+      paymentType: 'demo',
+    }
+    writeOrders([...orders, order])
+    return order
+  },
+
+  async updatePaymentStatus(orderId, paymentStatus, paymentMethod) {
+    if (!Object.values(PAYMENT_STATUSES).includes(paymentStatus)) {
+      throw new Error('Choose a valid demo payment status.')
+    }
+    if (!PAYMENT_METHODS.includes(paymentMethod)) {
+      throw new Error('Choose a supported demo payment method.')
+    }
+    const orders = readOrders()
+    const order = orders.find((item) => item.id === orderId)
+    if (!order) throw new Error('This order no longer exists. Refresh checkout and try again.')
+    if (!order.isDemoPayment) throw new Error('Payment status can only be updated for demo-payment orders.')
+    if ([PAYMENT_STATUSES.SUCCESS, PAYMENT_STATUSES.CANCELLED].includes(order.paymentStatus)) {
+      throw new Error('This demo payment is already complete or cancelled.')
+    }
+
+    const updated = {
+      ...order,
+      paymentMethod,
+      paymentStatus,
+      status: paymentStatus === PAYMENT_STATUSES.CANCELLED ? 'Cancelled' : order.status,
+    }
+    writeOrders(orders.map((item) => item.id === orderId ? updated : item))
+    return updated
   },
 
   async updateStatus(orderId, status) {

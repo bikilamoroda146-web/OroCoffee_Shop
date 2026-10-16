@@ -3,12 +3,13 @@ import { useCart } from '../context/CartContext'
 import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 function Cart() {
-    const {cartItems, increasingQuantity, decreaseQuantity, removeFromCart, cartCount, cartTotal} = useCart();
+    const {cartItems, cartError, increasingQuantity, decreaseQuantity, removeFromCart, cartCount, cartTotal} = useCart();
 
     if(cartItems.length ===0){
         return(
             <div className='max-6xl mx-auto px-4 py-14 '>
                 <h1 className='text-4xl text-center font-bold text-coffee-orange py-6 px-4'>Your cart is Empty</h1>
+                {cartError && <p role="alert" className="mx-auto max-w-xl text-center text-sm text-red-700">{cartError}</p>}
                 <Link to="/menu" className='mt-6 block border border-coffee-orange  py-3 px-4 text-coffee-orange text-lg rounded-lg text-center hover:bg-coffee-brown'>
                 Continue shopping
                 </Link> 

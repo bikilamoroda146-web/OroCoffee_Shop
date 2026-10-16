@@ -22,6 +22,7 @@ import AdminCustomers from './pages/admin/AdminCustomers'
 import AdminInventory from './pages/admin/AdminInventory'
 import AdminAnalytics from './pages/admin/AdminAnalytics'
 import AdminSection from './pages/admin/AdminSection'
+import Orders from './pages/Orders'
 
 function App() {
   const location = useLocation()
@@ -49,6 +50,14 @@ function App() {
           element={
             <ProtectedRouter>
               <Profile />
+            </ProtectedRouter>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRouter>
+              <Orders />
             </ProtectedRouter>
           }
         />
